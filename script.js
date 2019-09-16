@@ -12,6 +12,40 @@ const form = document.getElementById('myForm');
 const green = '#4CAF50';
 const red = '#F44336';
 
+// Handle form submission
+form.addEventListener('submit', event => {
+  // prevent default behaviour
+  event.preventDefault();
+
+  if (
+    validateFirstName() &&
+    validateLastName() &&
+    validatePassword() &&
+    validateConfirmPassword() &&
+    validateEmail()
+  ) {
+      const name = firstName.value;
+      const container = document.querySelector('div.container');
+      const loader = document.createElement('div');
+      loader.className = 'progress';
+      const loadingBar = document.createElement('div');
+      loadingBar.className = 'indeterminate';
+      loader.appendChild(loadingBar);
+      container.appendChild(loader);
+
+      setTimeout(() => {
+          const loaderDiv = document.querySelector('div.progress');
+          const panel = document.createElement('div');
+          panel.className = 'card-panel green';
+          const text = document.createElement('span');
+          text.className = 'white-text';
+          text.appendChild(document.createTextNode(`Sign up successful, welcome to Greener Pastures ${name}! `));
+          panel.appendChild(text);
+          container.replaceChild(panel, loaderDiv);
+      }, 1000)
+  }
+});
+
 // Validator functions
 function validateFirstName() {
   // Check if field is empty
@@ -44,21 +78,26 @@ function validatePassword() {
 }
 
 function validateConfirmPassword() {
-    if(password.className !== 'valid') {
-        setInvalid(confirmPassword, `Password must be valid.`);
-        return;
-    }
-    
-    // check if identical
-    if(password.value !== confirmPassword.value) {
-        setInvalid(confirmPassword, 'Passwords must match.');
-        return;
-    } else {
-        setValid(confirmPassword);
-    }
-    return true;
+  if (password.className !== 'valid') {
+    setInvalid(confirmPassword, `Password must be valid.`);
+    return;
+  }
+
+  // check if identical
+  if (password.value !== confirmPassword.value) {
+    setInvalid(confirmPassword, 'Passwords must match.');
+    return;
+  } else {
+    setValid(confirmPassword);
+  }
+  return true;
 }
 
+function validateEmail() {
+  if (checkIfEmpty(email)) return;
+  if (!containsCharacters(email, 5)) return;
+  return true;
+}
 
 /* Utility functions */
 
@@ -161,6 +200,10 @@ function containsCharacters(field, code) {
         field,
         `${field.name} must contain at least one upper case, one lower case, one number and a special character.`
       );
+    // email regex
+    case 5:
+      regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return matchWithRegEx(regEx, field, `${field.name} not valid.`);
     default:
       return false;
   }
