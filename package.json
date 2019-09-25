@@ -4,7 +4,8 @@
   "description": "Form validation project for portfolio",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/Stephen-Callum/FormValidation/issues"
   },
-  "homepage": "https://github.com/Stephen-Callum/FormValidation#readme"
+  "homepage": "https://github.com/Stephen-Callum/FormValidation#readme",
+  "dependencies": {
+    "webpack": "^4.41.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.9"
+  }
 }
